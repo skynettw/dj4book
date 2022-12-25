@@ -1,0 +1,20 @@
+<!-- engtv.html (ch06 project) -->
+{% extends "base.html" %}
+{% block title %}English News {% endblock %}
+{% block tvname %} {{tv.name}} {% endblock %}
+{% block menu %}
+            <ul class='nav navbar-nav'>
+                <li class='active'><a href='/'>Home</a></li>
+                <li><a href='{% url 'engtv-url' 0 %}'>Sky News</a></li>
+                <li><a href='{% url 'engtv-url' 1 %}'>Euro News</a></li>
+                <li><a href='{% url 'engtv-url' 2 %}'>Indea News</a></li>
+                <li><a href='{% url 'engtv-url' 3 %}'>CNA News</a></li>
+            </ul>
+{% endblock %}
+{% block content %}
+    <div class='conatiner'>
+        <div id='tvcode' align='center'>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{tv.tvcode}}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+{% endblock %}
