@@ -14,6 +14,12 @@
 
 	<div class='conatiner'>
 		<div id='tvcode' align='center'>
+			{% if hour > 18 %} 
+				晚安 
+			{% elif hour < 10 %}
+			    早安
+			{% endif %}
+			<br>
 			<iframe width="560" height="315" src="https://www.youtube.com/embed/{{tv.tvcode}}?autoplay=1" frameborder="0" allowfullscreen></iframe>
 		</div>
 	</div>
