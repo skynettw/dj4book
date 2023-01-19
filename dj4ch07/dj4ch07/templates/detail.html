@@ -1,0 +1,30 @@
+<!-- detail.html (dj4ch07 project) -->
+{% extends "base.html" %}
+{% block title %}{{product.nickname | default:"找不到指定的手機"}}{% endblock %}
+{% block content %}
+<div class='container' align=center>
+{% if product %}
+<table>
+    <tr><td align=center><h3>{{ product.nickname }}</h3></td></tr>
+    <tr><td align=center>{{ product.description }}</td></tr>
+    <tr><td align=center>西元{{ product.year }}年出廠</td></tr>
+    <tr><td align=center>售價：NT${{ product.price }}元</td></tr>
+    {% for image in images %}
+        {% if forloop.first %} 
+            <tr><td align=center>
+        {% endif %}
+            {% comment %} <img src='{{ image.url }}' width=350><br> {% endcomment %}
+            <img src="/media/{{image.media}}" width=350><br>
+        {% if forloop.last %}
+            </td></tr>
+        {% endif %}
+    {% empty %}
+        <tr><td align=center>暫無圖片</td></tr>
+    {% endfor %}
+</table>
+{% else %}
+<h2>找不到指定的手機</h2>
+{% endif %}
+
+</div>
+{% endblock %}
