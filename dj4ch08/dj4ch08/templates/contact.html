@@ -1,0 +1,25 @@
+<!-- contact.html (dj4ch08 project) -->
+{% extends "base.html" %}
+{% block title %}連絡管理員{% endblock %}
+{% block content %}
+<div class='container'>
+    {% if message %}
+        <div class='alert alert-warning'>{{ message }}</div>
+    {% endif %}
+    <br/>
+    <div class='card'>
+        <div class='card-header'>
+            <form name='my form' action='.' method='POST'>
+            {% csrf_token %}
+            <h3>寫信給管理員</h3>
+        </div>
+        <div class='card-body'>
+            {{ form.as_p }}
+        </div>
+        <div class='card-footer'>
+            <input type='submit' value='送出'>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

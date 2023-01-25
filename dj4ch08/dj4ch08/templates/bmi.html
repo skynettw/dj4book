@@ -1,0 +1,33 @@
+<!-- bmi.html (dj4ch08 project) -->
+{% extends "base.html" %}
+{% block title %}BMI列表{% endblock %}
+{% block content %}
+<div class='container'>
+    <table class="table table-striped">
+        <tr><td>姓名</td><td>身高</td><td>體重</td><td>BMI</td><td>管理</td></tr>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.height }}cm</td>
+                <td>{{ item.weight }}kg</td>
+                <td>{{ item.bmi }}</td>
+                <td><a class="btn btn-sm btn-outline-warning">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <form name='my form' action='/bmi/' method='POST'>
+        {% csrf_token %}
+        <table>
+            <tr><td>姓名：</td><td><input type="text" name="name" size=10 required></td></tr>
+            <tr><td>身高：</td><td><input type="text" name="height" size=3 required>cm</td></tr>
+            <tr><td>體重：</td><td><input type="text" name="weight" size=3 required>kg</td></tr>
+            <tr>
+                <td colspan=2>
+                    <input type='submit' value='張貼'>
+                    <input type='reset' value='清除重填'>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>    
+{% endblock %}

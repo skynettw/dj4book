@@ -1,0 +1,39 @@
+<!-- listing.html (dj4ch08 project) -->
+{% extends "base.html" %}
+{% block title %}我有話要說{% endblock %}
+{% block content %}
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-12'>
+     <div class='card'>
+      <div class='card-header' align=center>
+        <h3>~~寶寶心裡苦，寶寶只在這裡說~~</h3>
+      </div>
+     </div>
+    </div>
+  </div>
+
+  <div class="row">
+   {% for p in posts %}   
+     <div class="col-sm-12 col-md-6">
+      <div class='card {%cycle "text-white bg-primary" "bg-info" "bg-warning" "bg-success" %}'>
+        <div class='card-header'>
+         <table width='100%'>
+          <tr>
+            <td>
+              【{{ p.nickname }}】覺得{{ p.mood }}
+            </td>
+            <td align=right>
+              <i><small>{{ p.pub_time }}</small></i>
+            </td>
+          </tr>
+         </table>
+        </div>
+        <div class='card-body'>{{ p.message | linebreaks }}</div>
+      </div>
+      <br/>
+     </div>
+   {% endfor %}
+  </div>
+</div>
+{% endblock %}

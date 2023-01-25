@@ -1,0 +1,26 @@
+<!-- posting.html (dj4ch08 project) -->
+{% extends "base.html" %}
+{% block title %}我有話要說{% endblock %}
+{% block content %}
+<div class='container'>
+{% if message %}
+    <div class='alert alert-warning'>{{ message }}</div>
+{% endif %}
+<form name='my form' action='.' method='POST'>
+    {% csrf_token %}
+    現在的心情：<br/>
+    {% for m in moods %}
+    <input type='radio' name='mood' value='{{ m.status }}'>{{ m.status }}
+    {% endfor %}
+    <br/>
+    心情留言板：<br/>
+    <textarea name='user_post' rows=3 cols=70></textarea><br/>
+    <label for='user_id'>你的暱稱：</label>
+    <input id='user_id' type='text' name='user_id'>
+    <label for='user_pass'>張貼/刪除密碼：</label>
+    <input id='user_pass' type='password' name='user_pass'><br/>
+    <input type='submit' value='張貼'>
+    <input type='reset' value='清除重填'>
+</form>
+</div>	
+{% endblock %}

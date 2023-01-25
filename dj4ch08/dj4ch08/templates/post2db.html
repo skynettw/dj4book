@@ -1,0 +1,21 @@
+<!-- post2db.html (dj4ch08 project) -->
+{% extends "base.html" %}
+{% block title %}我有話要說{% endblock %}
+{% block content %}
+<div class='container'>
+{% if message %}
+    <div class='alert alert-warning'>{{ message }}</div>
+{% endif %}
+
+<form name='my form' action='.' method='POST'>
+    {% csrf_token %}
+    <table>
+    {{ post_form.as_table }}
+    </table>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="g-recaptcha" data-sitekey="6LfwDiYkAAAAAEgx2iwzdcPnl5TwWtEV7GQonsH5"></div>
+    <input type='submit' value='張貼'>
+    <input type='reset' value='清除重填'>
+</form>
+</div>
+{% endblock %}
