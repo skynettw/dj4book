@@ -1,0 +1,19 @@
+<!-- posting.html (dj4ch09 project) -->
+{% extends "base.html" %}
+{% block title %}我有話要說{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+
+<form name='my form' action='.' method='POST'>
+    {% csrf_token %}
+    <table>
+    {{ post_form.as_table }}
+    </table>
+    <input type='submit' value='張貼'>
+    <input type='reset' value='清除重填'>
+</form>
+</div>
+{% endblock %}

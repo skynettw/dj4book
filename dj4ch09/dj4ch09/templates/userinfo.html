@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}分享日記{% endblock %}
+{% block content %}
+<div class='container'>
+<div class='row'>
+    <div class='col-md-12'>
+            <h3 class="alert alert-primary">使用者資訊</h3>
+    </div>
+</div>
+<p>
+    {% comment %} for 9.3 {% endcomment %}
+    {% comment %} 您的姓名：{{ userinfo.username }}<br/>
+    電子郵件：{{ userinfo.email }} {% endcomment %}
+    姓名：{{ userinfo.user.username }}<br/>
+    電子郵件：{{ userinfo.user.email }}<br/>
+    身高：{{ userinfo.height }} cm<br/>
+    性別：{{ userinfo.male | yesno:"男生,女生"}}
+
+</p>
+</div>
+{% endblock %}
