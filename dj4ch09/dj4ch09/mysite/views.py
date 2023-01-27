@@ -7,6 +7,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from plotly.offline import plot
+import plotly.graph_objs as go
+import numpy as np
+
+import os
 
 # for 9.2
 # def index(request):
@@ -159,3 +164,37 @@ def posting(request):
 def votes(request):
     data = models.Vote.objects.all()
     return render(request, "votes.html", locals())
+
+
+def plotly(request):
+    data = models.Vote.objects.all()
+    # x = np.linspace(0, 2*np.pi, 360)
+    # y1 = np.sin(x)
+    # y2 = np.cos(x)
+    # plot_div = plot([go.Scatter(x=x, y=y1,
+	# 	mode='lines', name='SIN', text="Title",
+	# 	opacity=0.8, marker_color='green'),
+	# 	go.Scatter(x=x, y=y2,
+	# 	mode='lines', name='COS', 
+	# 	opacity=0.8, marker_color='green')],
+	# 	output_type='div')
+    
+    labels = [d.name for d in data]
+    values = [d.votes for d in data]
+    plot_div = plot([go.Bar(y=labels, x=values, 
+                            orientation='h')], output_type='div')
+    return render(request, "plotly.html", locals())
+
+def chart3d(request):
+    filename = os.path.join(settings.BASE_DIR, "3d.csv")
+    with open(filename, "r", encoding="utf-8") as fp:
+        rawdata = fp.readlines()
+    rawdata = [(float(d.split(",")[0]),float(d.split(",")[1]), float(d.split(",")[2]), float(d.split(",")[3]))  for d in rawdata]
+    chart_data = np.array(rawdata).T
+    plot_div = plot([go.Scatter3d(x=chart_data[0], 
+                                  y=chart_data[1], 
+                                  z=chart_data[3], 
+                                  mode="markers", 
+                                  marker=dict(size=2, symbol='circle'))], 
+                    output_type='div')
+    return render(request, "chart3d.html", locals())

@@ -17,4 +17,6 @@ urlpatterns = [
     path('userinfo/', views.userinfo),
     path('post/', views.posting),
     path('votes/', views.votes),
+    path('plotly/', views.plotly),
+    path('chart3d/', views.chart3d),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

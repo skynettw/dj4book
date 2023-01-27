@@ -1,0 +1,22 @@
+<!-- chart3d.html (dj4ch09 project) -->
+{% extends "base.html" %}
+{% block title %}Plotly 3D繪圖展示{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <h3 class="alert alert-primary">Plotly 3D繪圖展示</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% autoescape off %}
+            {{ plot_div }}
+            {% endautoescape %}
+        </div>
+    </div>
+</div>
+{% endblock %}

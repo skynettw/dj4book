@@ -1,0 +1,38 @@
+<!-- plotly.html (dj4ch09 project) -->
+{% extends "base.html" %}
+{% block title %}2022左楠區市議員投票結果{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <h3 class="alert alert-primary">2022左楠區市議員投票結果</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {% autoescape off %}
+            {{ plot_div }}
+            {% endautoescape %}
+        </div>
+        <div class="col-md-6">
+            <table class="table table-striped table-sm">
+                <tr>
+                    <td>姓名</td>
+                    <td>政黨</td>
+                    <td>得票數</td>
+                </tr>
+                {% for d in data %}
+                <tr>
+                    <td>{{ d.name }}</td>
+                    <td>{{ d.party }}</td>
+                    <td>{{ d.votes }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
