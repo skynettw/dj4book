@@ -1,0 +1,41 @@
+<!-- userinfo.html (dj4ch10 project) -->
+{% extends "base.html" %}
+{% block title %}分享日記{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+<div class='row'>
+    <div class='col-md-12'>
+        <div class='panel panel-default'>
+            <div class='panel-heading' align=center>
+                <h3>使用者資訊</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-md-12'>
+        <div class='card'>
+            <div class='card-header' align=center>
+                {{ profile.user.username | upper }}
+            </div>
+            <div class='card-body'>
+                電子郵件：{{ profile.user.email }}<br/>
+                身高：{{ profile.height }} cm<br/>
+                性別：{{ profile.male | yesno:"男生,女生"}}<br/>
+                個人網站：<a href='{{ profile.website }}'>{{ profile.website }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<form name='myname' action='.' method='POST'>
+    {% csrf_token %}
+    <table class="table table-striped">
+    {{ profile_form.as_table }}
+    </table>
+    <input type='submit' value='修改個人資料'>
+</form>
+</div>
+{% endblock %}

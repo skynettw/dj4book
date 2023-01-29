@@ -1,0 +1,22 @@
+<!-- registration_form.html (dj4ch10 project) -->
+{% extends "base.html" %}
+{% block title %}註冊分享日記{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+<div class='row'>
+    <div class='col-md-12'>
+        <h3 calss='alert alert-primary'>註冊分享日記網站</h3>
+    </div>
+</div>
+<form action='.' method='POST'>
+    {% csrf_token %}
+        <table class="table table-striped">
+            {{ form.as_table }}
+        </table>
+    <input type='submit' value='註冊'><br/>
+</form>
+</div>
+{% endblock %}

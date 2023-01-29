@@ -1,0 +1,43 @@
+<!-- header.html (dj4ch10 project) -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">分享日記</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        {% if username %}
+        <li class="nav-item">
+          <a class="nav-link" href="/userinfo/">個人資料</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/post/">寫日記</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact/">連絡管理員</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout/">登出</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/login/">登入</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/accounts/register/">註冊</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/login/?next=/">Django登入</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/">後台管理</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
