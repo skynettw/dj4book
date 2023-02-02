@@ -1,0 +1,17 @@
+asgiref==3.6.0
+beautifulsoup4==4.11.1
+bs4==0.0.1
+certifi==2022.12.7
+Django==4.1.6
+django-registration-redux==2.11
+django-uuid-upload-path==1.0.0
+idna==3.4
+lxml==4.9.2
+Pillow==9.4.0
+pip==22.3.1
+setuptools==65.6.3
+soupsieve==2.3.2.post1
+sqlparse==0.4.3
+tzdata==2022.7
+wheel==0.37.1
+wincertstore==0.2

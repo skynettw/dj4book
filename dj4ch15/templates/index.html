@@ -1,0 +1,36 @@
+<!-- index.html (dj4ch15 project) -->
+{% extends "base.html" %}
+{% block title %}名言佳句圖片產生器{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+{% load static %}
+{% static "" as base_url %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='card'>
+                    <h3 class='alert alert-primary'>名言佳句圖片產生器</h3>
+                <div class='card-body'>
+                    {% for pic in pics %}
+                        {% cycle "<div class='row'>" "" "" %}
+                            <div class='col col-sm-4'>
+                                <div calss='card'>
+                                    <div class='card-header'>
+                                        {{ pic }}
+                                    </div>
+                                    <div class='card-body'>
+                                  <img src="{{ base_url }}quotepics/{{pic}}.jpg" width="100%">
+                                    </div>
+                                </div>
+                            </div>
+                        {% cycle "" "" "</div>" %}
+                    {% endfor %}
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

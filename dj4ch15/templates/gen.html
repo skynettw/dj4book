@@ -1,0 +1,71 @@
+<!-- gen.html (dj4ch15 project) -->
+{% extends "base.html" %}
+{% block title %}名言佳句圖片產生器{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+{% load static %}
+{% static "" as base_url %}
+<script>
+$(document).ready(function() {
+    $('#id_backfile').change(function() {
+        $('#show_back_image').html('<img src="' + '/static/backimages/'+
+            $(this).find(':selected').val() + '" width="100%">');
+    });
+});
+</script>
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='card'>
+            {% if saved_filename %}
+                <div class='card-header' align=center>
+                    您的成果
+                </div>
+                <div class='card-body' align=center>
+                    <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                    </script>
+                    <button onclick="goBack()">回上一頁重新設定</button><br/>
+
+                    <img src="/media/{{saved_filename}}" width='100%'>
+                </div>
+            {% else %}
+                <div class='card-header' align=center>
+                    <h3>輸入文字，按下按鈕，輕鬆完成</h3>
+                </div>
+                <div class='card-body'>
+                    <table width='100%'>
+                        <tr>
+                            <td width='50%'>
+                                <form action='.' method='POST'>
+                                    <table>
+                                    {% csrf_token %}
+                                    {{form.as_table}}
+                                    <tr><td>
+                                        <input type='submit' value='開始產生'>
+                                    </td></tr>
+                                    </table>
+                                </form>
+                            </td>
+                            <td>
+                                <div class='card'>
+                                    <div class='card-header'>
+                                        <h4>背景圖片</h4>
+                                    </div>
+                                    <div class='card-body' id='show_back_image'>
+                                     <img src="{% static "backimages/back1.jpg"%}" width='100%'>
+                                    </div>
+                                </div>
+                            </td>
+                    </table>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

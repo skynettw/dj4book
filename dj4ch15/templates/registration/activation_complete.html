@@ -1,0 +1,15 @@
+<!-- activation_complete.html (d4jch10 project) -->
+{% extends "base.html" %}
+{% block title %}分享日記{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <h3 class='alert alert-primary'>帳號啟用成功，感謝您的註冊！</h3>
+        </div>
+    </div>
+</div>
+{% endblock %}

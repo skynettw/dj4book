@@ -1,0 +1,89 @@
+<!-- vip.html (dj4ch15 project) -->
+{% extends "base.html" %}
+{% block title %}名言佳句圖片產生器VIP{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+{% load static %}
+{% static "" as base_url %}
+</script>
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='card'>
+            {% if saved_filename %}
+                <div class='card-header' align=center>
+                    您的成果
+                </div>
+                <div class='card-body' align=center>
+                    <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                    </script>
+                    <button onclick="goBack()">回上一頁重新設定</button><br/>
+
+                    <img src="/media/{{saved_filename}}" width='100%'>
+                </div>
+            {% else %}
+                <div class='card-header' align=center>
+                    <h3>VIP自訂背景圖片功能</h3>
+                </div>
+                <div class='card-body'>
+                    <table width='100%'>
+                        <tr>
+                            <td width='50%'>
+                                    <div class='card'>
+                                        <div class='card-header'>
+                                            變更背景檔案
+                                        </div>
+                                        <div class='card-body'>
+                                            <form action='.' method='POST' enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                    {{ upload_form.as_p }}
+                                                    </td><td>
+                                                    <input type='submit' value='變更圖片' name='change_backfile'>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+                                <form action='.' method='POST'>
+                                    <table>
+                                    {% csrf_token %}
+                                    {{form.as_table}}
+                                    <tr><td>
+                                        <input type='submit' value='開始產生'>
+                                    </td></tr>
+                                    </table>
+                                </form>
+                            </td>
+                            <td style='vertical-align:top;'>
+                                <div class='card'>
+                                    <div class='card-header'>
+                                        <h4>背景圖片</h4>
+                                    </div>
+                                    <divclass='card-body'>
+                                    {% if custom_backfile %}
+                                        <img src="/media/{{ custom_backfile }}" width='100%'>
+                                    {% else %}
+                                        <img src="{% static "backimages/back1.jpg"%}" width='100%'>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                    </table>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
