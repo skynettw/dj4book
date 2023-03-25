@@ -1,9 +1,9 @@
 # 快速學會Python架站技術：活用Django 4建構動態網站的16堂課
-------
 ## 原始程式碼
 ## 歡迎讀者下載使用
 
-[連結]: https://www.drmaster.com.tw/Bookinfo.asp?BookID=MP22259 "博碩出版社"
+ [博碩出版社連結](https://www.drmaster.com.tw/Bookinfo.asp?BookID=MP22259)
+ 
 ISBN：9786263334090
 規格：平裝 / 608頁 / 17 x 23 x 3.16 cm / 普通級 / 單色印刷 / 初版
 出版地：台灣
