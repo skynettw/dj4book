@@ -132,7 +132,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "youremail@gmail.com"
 EMAIL_HOST_PASSWORD = "請填入自己的密碼"
 
-GOOGLE_RECAPTCHA_SECRET_KEY = '6LfwDiYkAAAAAPme_kI8_e3h2HvPYBZmgAjspg5N'
+GOOGLE_RECAPTCHA_SECRET_KEY = '****'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
