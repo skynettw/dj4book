@@ -1,0 +1,9 @@
+asgiref==3.5.2
+certifi==2022.9.24
+Django==4.1.3
+pip==22.2.2
+setuptools==65.5.0
+sqlparse==0.4.3
+tzdata==2022.6
+wheel==0.37.1
+wincertstore==0.2
