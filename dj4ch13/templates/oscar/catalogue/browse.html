@@ -1,0 +1,141 @@
+{% extends "oscar/layout_2_col.html" %}
+
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
+{% endblock %}
+
+{% block headertext %}{{ summary }}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+        </li>
+        <li class="active">{{ summary }}</li>
+    </ul>
+{% endblock breadcrumbs %}
+
+{% block column_left %}
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+        <h4>{% trans "Show results for" %}</h4>
+        <div class="side_categories">
+            <ul class="nav nav-list">
+                {% for tree_category in tree_categories %}
+                    <li>
+                        <a href="{{ tree_category.url }}">
+                            {% if tree_category.pk == category.pk %}
+                                <strong>{{ tree_category.name }}</strong>
+                            {% else %}
+                                {{ tree_category.name }}
+                            {% endif %}
+                        </a>
+
+                        {% if tree_category.has_children %}<ul>{% else %}</li>{% endif %}
+                        {% for n in tree_category.num_to_close %}
+                            </ul></li>
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if has_facets %}
+        <h4>{% trans "Refine by" %}</h4>
+        <div class="side_categories">
+            {% for field, data in facet_data.items %}
+                {% if data.results %}
+                    {% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class='panel panel-warning'>
+        <div class='panel panel-heading'>
+            <h3>最新消息</h3>
+        </div>
+        <div class='panel panel-body'>
+            <p>
+                歡慶開學，即日起凡在本店購書滿100元以上，即免運費。
+            </p>
+        </div>
+        <div class='panel panel-footer'>
+            <em>截止日：2016/12/31</em>
+        </div>
+    </div>
+
+    <div class='panel panel-info'>
+        <div class='panel panel-heading'>
+            <h3>本店地址</h3>
+        </div>
+        <div class='panel panel-body'>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3682.492640658839!2d120.34805411501405!3d22.635413785150387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e1b319d8b9d47%3A0x904f4108ed16fc38!2z5by15aeQ6J2m5LuB5rC06aSD54mb6IKJ6bq1!5e0!3m2!1szh-TW!2stw!4v1472545810920" width="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+        <div class='panel panel-footer'>
+            <em>電話：07-749-xxxx</em>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+    <form method="get" class="form-horizontal">
+        {# Render other search params as hidden inputs #}
+        {% for value in selected_facets %}
+            <input type="hidden" name="selected_facets" value="{{ value }}" />
+        {% endfor %}
+        <input type="hidden" name="q" value="{{ search_form.q.value|default_if_none:"" }}" />
+
+        {% if paginator.count %}
+            {% if paginator.num_pages > 1 %}
+                {% blocktrans with start=page_obj.start_index end=page_obj.end_index count num_results=paginator.count %}
+                    <strong>{{ num_results }}</strong> result - showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong>.
+                {% plural %}
+                    <strong>{{ num_results }}</strong> results - showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong>.
+                {% endblocktrans %}
+            {% else %}
+                {% blocktrans count num_results=paginator.count %}
+                    <strong>{{ num_results }}</strong> result.
+                {% plural %}
+                    <strong>{{ num_results }}</strong> results.
+                {% endblocktrans %}
+            {% endif %}
+            {% if form %}
+                <div class="pull-right">
+                    {% include "oscar/partials/form_field.html" with field=form.sort_by %}
+                </div>
+            {% endif %}
+        {% else %}
+            <p>
+                {% trans "<strong>0</strong> results." %}
+            </p>
+        {% endif %}
+    </form>
+
+    {% if products %}
+        <section>
+            <div>
+                <ol class="row">
+                    {% for product in products %}
+                        <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">{% render_product product %}</li>
+                    {% endfor %}
+                </ol>
+                {% include "oscar/partials/pagination.html" %}
+            </div>
+        </section>
+    {% else %}
+        <p class="nonefound">{% trans "No products found." %}</p>
+    {% endif %}
+
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.search.init();
+{% endblock %}

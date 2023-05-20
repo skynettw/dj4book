@@ -1,0 +1,15 @@
+{% load i18n %}
+<footer class="footer container-fluid text-center text-lg-start bg-light text-muted">
+    {% block footer %}
+        {% comment %}
+            Could be used for displaying links to privacy policy, terms of service, etc.
+            We have a CSS class defined:
+                <ul class="footer_links inline">
+                    ...
+                </ul>
+         {% endcomment %}
+         <div class='panel panel-info'>
+             <h4 style="margin: 0; padding: 4px;">本網站的內容均為教學示範之用，請勿下單購買。作者網站：<a href='http://hophd.com'>http://hophd.com</a></h4>
+         </div> 
+    {% endblock %}
+</footer>

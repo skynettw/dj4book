@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>感謝您的註冊</h1>
+        <p>使用者：{{ user }}</p>
+        <p>在網站：{{ site }}註冊</p>
+        <a href="http://{{ site }}/accounts/activate/{{ activation_key }}">點擊啟用</a>
+        <p>將於{{ expiration_days }}天後到期</p>
+    </body>
+</html>

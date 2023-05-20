@@ -1,0 +1,24 @@
+<!-- header.html (mvote project) -->
+<nav class='navbar navbar-default'>
+    <div class='container-fluid'>
+        <div class='navbar-header'>
+            <div class='navbar-brand' align=center>
+                投票趣
+            </div>
+        </div>
+        {% load account %}
+        <ul class='nav navbar-nav'>
+            <li class='active'><a href='/'>Home</a></li>
+            {% if user.is_authenticated  %}
+            <li><a href="/addpoll/">新增(編輯)投票</a></li>
+            <li><a href="{% url 'account_reset_password' %}">重設密碼</a></li>
+            <li><a href="{% url 'account_email' %}">變更電子郵件</a></li>
+            <li><a href="{% url 'account_logout' %}">登出</a></li>
+            {% else %}
+            <li><a href="{% url 'account_login' %}">登入</a></li>
+            <li><a href="{% url 'account_signup' %}">註冊</a></li>
+            {% endif %}
+            <li><a href='/admin'>後台管理</a></li>
+        </ul>
+    </div>
+</nav>
