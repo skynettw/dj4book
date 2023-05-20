@@ -1,0 +1,9 @@
+{% load socialaccount %}
+{% providers_media_js %}
+
+<html>
+    <head>
+        <title>Facebook Registration</title>
+    </head>
+    <a href="{% provider_login_url "facebook" method="js_sdk" %}">Facebook Connect</a>
+</html>

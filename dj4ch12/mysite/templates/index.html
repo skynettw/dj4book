@@ -1,0 +1,81 @@
+<!-- index.html (mshop project) -->
+{% extends "base.html" %}
+{% block title %}迷你小電商{% endblock %}
+{% block content %}
+{% load mvote_extras %}
+<div class='container'>
+    {{today}}
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading' align=center>
+                    <h3>歡迎光臨迷你小電商<br>【{{category.name | default:"全部產品"}}】</h3>
+                    {% if user.is_authenticated %}
+                        {% if user.socialaccount_set.all.0.extra_data.name %}
+                            {{user.socialaccount_set.all.0.extra_data.name}}<br/>
+                            <img src='{{user.socialaccount_set.all.0.get_avatar_url}}' width='100'>
+                        {% else %}
+                            Welcome: {{ user.username }}
+                        {% endif %}
+                    {% else %}
+                        <p>歡迎使用Facebook註冊/登入你的帳號才能購買本站優惠商品（教學測試用）。</p>             
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row'>
+            <button class='btn btn-info'>
+                目前是第{{ products.number }}頁</a>
+            </button>
+        {% if products.has_previous %}
+            <button class='btn btn-info'>
+                <a href='?p={{ products.previous_page_number }}'>上一頁</a>
+            </button>
+        {% endif %}
+        {% if products.has_next %}
+            <button class='btn btn-info'>
+                <a href='?p={{ products.next_page_number }}'>下一頁</a>
+            </button>
+        {% endif %}
+    </div>
+    {% load account %}
+    {% for product in products %}
+        {% cycle '<div class="row">' '' '' '' %}
+        <div class='col-xs-3 col-sm-3 col-md-3'>
+            <div class='thumbnail'>
+                <img src='{{product.image.url}}'>
+                <div class='caption'>
+                    <h4><a href='{% url "product-url" product.id %}'>{{ product.name }}</a></h4>
+                    <p>NT$ {{product.price }}</p>
+                    <p>庫存：{{product.stock}}</p>
+                    <p>{{ product.description }}</p>
+
+                    {% if user.is_authenticated %}
+                        <button class='btn btn-info' {{ product.stock | yesno:",disabled"}}>
+                            <a href='{% url "additem-url" product.id 1 %}'>放入購物車</a>
+                        </button>
+                    {% endif %}
+                </div>    
+            </div>
+        </div>
+
+        {% cycle '' '' '' '</div>'%}
+    {% empty %}
+        <div class='row'>
+            <div class='col-sm-12' align='center'>
+                <h3>此分類目前沒有任何商品</h3>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+    {% if cart.items|length > 0 %}
+        <em>目前購物車中共有 {{ cart.items|length }} 項產品</em>
+    {% else %}
+        <p>此購物車為空</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+<!-- header.html (mshop project) -->
+<nav class='navbar navbar-default'>
+    <div class='container-fluid'>
+        <div class='navbar-header'>
+            <div class='navbar-brand' align=center>
+                迷你小電商
+            </div>
+        </div>
+        {% load account %}
+        <ul class='nav navbar-nav'>
+            <li class='active'><a href='/'>Home</a></li>
+            <li class='dropdown'>
+                <a class="dropdown-toggle" data-toggle="dropdown" href='#'>
+                產品<span class='caret'></span></a>
+                <ul class="dropdown-menu">
+                    {% for cate in all_categories %}
+                    <li><a href='/{{cate.id}}'>{{cate.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% if user.is_authenticated  %}
+            <li><a href="/cart/">檢視購物車</a></li>
+            <li><a href="/myorders/">檢視訂單</a></li>
+            <li><a href="{% url 'account_reset_password' %}">重設密碼</a></li>
+            <li><a href="{% url 'account_email' %}">變更電子郵件</a></li>
+            <li><a href="{% url 'account_logout' %}">登出</a></li>
+            {% else %}
+            <li><a href="{% url 'account_login' %}">登入</a></li>
+            <li><a href="{% url 'account_signup' %}">註冊</a></li>
+            {% endif %}
+            <li><a href='/admin'>後台管理</a></li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,75 @@
+<!-- myorders.html (mshop project) -->
+{% extends "base.html" %}
+{% load cart_tag %}
+{% block title %}我的訂單{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading' align=center>
+                    <h3>歡迎光臨迷你小電商</h3>
+                        {% if user.socialaccount_set.all.0.extra_data.name %}
+                            {{user.socialaccount_set.all.0.extra_data.name}}<br/>
+                            <img src='{{user.socialaccount_set.all.0.get_avatar_url}}' width='100'>
+                        {% else %}
+                            Welcome: {{ user.username }}
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <div class='panel panel-info'>
+                <div class='panel panel-heading'>
+                    <h4>我的訂單</h4>
+                </div>
+                <div class='panel panel-body'>
+                    {% for order in orders %}
+                    {% if forloop.first %}
+                    <table border=1>
+                        <tr>
+                            <td width=100 align=center>訂單編號</td>
+                            <td width=100 align=center>姓名</td>
+                            <td width=300 align=center>地址</td>
+                            <td width=200 align=center>訂購時間</td>
+                            <td width=100 align=center>是否付款</td>
+                            <td width=100 align=center>線上付款</td>
+                        </tr>
+                    {% endif %}
+                        <div class='listgroup'>
+                            <div class='listgroup-item'>
+                                <tr>
+                                    <td align=center>{{ order.id }}</td>
+                                    <td align=center>{{ order.full_name }}</td>
+                                    <td>{{ order.address }}</td>
+                                    <td align=center>{{ order.created_at }}</td>
+                                    <td align=center>{{ order.paid | yesno:"是,否"}}</td>
+                                    <td align=center>
+                                        {% if not order.paid %}
+                                        <button class='btn btn-warning'>
+                                            <a href='/payment/{{order.id}}/'>前往付款</a>
+                                        </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </div>
+                        </div>
+                    {% if forloop.last %}
+                    </table>
+                    {% endif %}
+                    {% empty %}
+                        <em>沒有處理中的訂單</em>
+                    {% endfor %}
+                </div>
+                <div class='panel panel-footer'>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

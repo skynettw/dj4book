@@ -1,0 +1,74 @@
+<!-- poll.html (mvote project) -->
+
+{% extends "base.html" %}
+{% block title %}投票趣{% endblock %}
+{% block content %}
+    <script>
+        $(document).ready(function() {
+        {% for pollitem in pollitems %}
+            $("#govote-{{pollitem.id}}").click(function(){
+                var pollitemid = $("#govote-{{pollitem.id}}").data("itemid");
+                $.ajax({
+                    type: "GET",
+                    url: "/govote/",
+                    data: {
+                        "pollitemid": pollitemid
+                    },
+                    success: function(votes) {
+                        if (votes==0) {
+                            alert("無法投票");
+                        } else {
+                            $("#pollitem-id-{{pollitem.id}}").html(votes);
+                        }
+                    } 
+                });
+            });
+        {% endfor %}
+        });
+    </script>
+    
+    <div class='container'>
+        {% for message in messages %}
+            <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+        {% endfor %}
+        
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='panel panel-default'>
+                    <div class='panel-heading' align=center>
+                        <h3>{{ poll.name }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% for pollitem in pollitems %}
+            {% cycle  "<div class='row'>" "" "" "" %}
+            <div class='col-sm-3'>
+                <div class='panel panel-primary'>
+                    <div class='panel panel-heading'>
+                        {{ pollitem.name }}
+                    </div>
+                    <div class='panel panel-body'>
+                        {% if pollitem.image_url %}
+                            <img src='{{ pollitem.image_url }}' width='100%'>
+                        {% else %}
+                            <img src='http://i.imgur.com/Ous4iGB.png' width='100%'>
+                        {% endif %}
+                    </div>
+                    <div class='panel panel-footer' align=center>
+                        <h4>
+                        <a href='/vote/{{poll.id}}/{{pollitem.id}}' title='投票'>
+                            <span class='glyphicon glyphicon-heart-empty'>
+                            </span>
+                        </a>
+                        &nbsp;
+                        目前票數：<span id='pollitem-id-{{pollitem.id}}'>{{ pollitem.vote }}</span></h4>
+                        <button class='btn btn-primary' id='govote-{{pollitem.id}}' data-itemid='{{pollitem.id}}'>投這個一票</button>
+                    </div>
+                </div>
+            </div>
+            {% cycle "" "" "" "</div>" %}
+        {% endfor %}
+    </div>
+{% endblock %}

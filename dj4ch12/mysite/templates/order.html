@@ -1,0 +1,75 @@
+<!-- order.html (mshop project) -->
+{% extends "base.html" %}
+{% load cart_tag %}
+{% block title %}檢視購物車{% endblock %}
+{% block content %}
+<div class='container'>
+{% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+{% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading' align=center>
+                    <h3>歡迎光臨迷你小電商</h3>
+                        {% if user.socialaccount_set.all.0.extra_data.name %}
+                            {{user.socialaccount_set.all.0.extra_data.name}}<br/>
+                            <img src='{{user.socialaccount_set.all.0.get_avatar_url}}' width='100'>
+                        {% else %}
+                            Welcome: {{ user.username }}
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <div class='panel panel-info'>
+                <div class='panel panel-heading'>
+                    <h4>新訂單</h4>
+                </div>
+                <div class='panel panel-body'>
+                    {% for id, item in cart.items %}
+                    {% if forloop.first %}
+                    <table border=1>
+                        <tr>
+                            <td width=300 align=center>產品名稱</td>
+                            <td width=100 align=center>單價</td>
+                            <td width=100 align=center>數量</td>
+                            <td width=100 align=center>小計</td>
+                        </tr>
+                    {% endif %}
+                        <div class='listgroup'>
+                            <div class='listgroup-item'>
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td align=right>{{ item.price }}</td>
+                                    <td align=center>{{ item.quantity }}</td>
+                                    <td align=right>{{ item.price|multiply:item.quantity }}</td>
+                                </tr>
+                            </div>
+                        </div>
+                    {% if forloop.last %}
+                    </table>
+                    <button class='btn btn-warning'><a href='/cart'>回購物車</a></button>
+                    <button class='btn btn-warning'><a href='/'>回首頁</a></button>
+                    {% endif %}
+                    {% empty %}
+                        <em>購物車是空的</em>
+                    {% endfor %}
+                </div>
+                <div class='panel panel-footer'>
+                     總計：{{ total_price }}元
+                    <form action='.' method='POST'>
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_table }}
+                        </table>
+                        <input type='submit' value='下訂單'>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
