@@ -1,0 +1,68 @@
+<!-- index.html (mvote project) -->
+{% extends "base.html" %}
+{% load mvote_extras %}
+{% block title %}投票趣{% endblock %}
+{% block content %}
+    <div class='container'>
+        {% for message in messages %}
+            <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+        {% endfor %}
+
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='panel panel-default'>
+                    <div class='panel-heading' align=center>
+                        <h3>歡迎光臨投票趣</h3>
+                        {% if user.is_authenticated %}
+                            {% if user.socialaccount_set.all.0.extra_data.name %}
+                                {{user.socialaccount_set.all.0.extra_data.name}}<br/>
+                               <img src='{{user.socialaccount_set.all.0.get_avatar_url}}' width='100'>
+                            {% else %}
+                                Welcome: {{ user.username }}
+                            {% endif %}
+                        {% else %}
+                            <p>歡迎使用Facebook註冊/登入你的帳號，以擁有投票和製作投票的功能。</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='row'>
+            <button class='btn btn-info'>
+                目前是第{{ polls.number }}頁</a>
+            </button>
+            {% if polls.has_previous %}
+                <button class='btn btn-info'>
+                    <a href='?p={{ polls.previous_page_number }}'>上一頁</a>
+                </button>
+            {% endif %}
+            {% if polls.has_next %}
+                <button class='btn btn-info'>
+                    <a href='?p={{ polls.next_page_number }}'>下一頁</a>
+                </button>
+            {% endif %}
+        </div>
+
+        <div class='row'>
+            {% load account %}
+            {% for poll in polls %}
+                {% if forloop.first %}
+                    <div class='list-group'>
+                {% endif %}
+                    <a href='{% url "poll-url" poll.id %}' class='list-group-item'>
+                        <span class='glyphicon glyphicon-check'></span>
+                        總票數：{{ poll.id | show_votes }}，
+                        項目數：{{ poll.id | show_items }}：
+                        {{ poll.name }}, added by 【{{poll.user}}】,
+                        created at {{poll.created_at}}
+                    </a>
+                {% if forloop.last %}
+                    </div>
+                {% endif %}
+            {% empty %}
+                <center><h3>目前並沒有活躍中的投票項目</h3></center>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
