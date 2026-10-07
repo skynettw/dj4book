@@ -9,7 +9,12 @@ import filer.fields.image
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.FILER_IMAGE_MODEL),
+        # An explicit original root also works when the bundled database has
+        # only part of filer's later squashed migration applied. __first__ can
+        # otherwise select the unapplied squash and report inconsistent history.
+        ('filer', '0001_initial')
+        if settings.FILER_IMAGE_MODEL.lower() == 'filer.image'
+        else migrations.swappable_dependency(settings.FILER_IMAGE_MODEL),
         ('mysite', '0004_initial'),
     ]
 
