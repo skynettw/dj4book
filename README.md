@@ -70,3 +70,10 @@ repo 根目錄的離線回歸測試（使用具備對應套件的 venv）：
 python -m unittest discover -s tests -p test_pymongo_upgrade.py -v
 python -m unittest discover -s tests -p test_pyjwt_security.py -v
 ```
+
+### 商城：Pillow 與真實圖片驗證
+
+- `mshopa/requirements.txt` 將 Pillow **10.4.0 → 12.3.0**，沿用 Python 3.10+；實測環境為 Windows / Python 3.12。此版本高於 [PSD 越界寫入漏洞的修補版本 12.1.1](https://github.com/advisories/GHSA-cfh3-3jmp-rvhc) 及 [FITS GZIP 解壓縮漏洞的修補版本 12.2.0](https://github.com/advisories/GHSA-whj4-6x5x-4v2j)。未重現這兩個原生解碼器漏洞的惡意樣本，亦未能讀取 GitHub 個別 Dependabot alert 的關閉狀態。
+- 實際呼叫 filer 的管理員 multipart 上傳端點，在臨時目錄寫入圖片與縮圖，再用 Pillow 完整解碼：JPEG、PNG、GIF、WebP、PNG 透明度、EXIF 旋轉、動畫 GIF 原始幀、商品圖片 URL 與裁切縮圖均涵蓋。`manage.py test mysite --noinput` 包含這些測試，媒體儲存隔離，不修改原始 SQLite 或教學媒體。
+- 測試揭露 filer 原先只檢查圖片尺寸，可能接受截斷 JPEG。新增四種點陣 MIME 類型的上傳 validator，在存檔前檢查檔案格式、完整性與每一幀的解碼，拒絕損壞圖片、偽造副檔名與超過 Pillow 像素安全限制的圖片；失敗回傳 HTTP 400，不留下檔案或資料列。上傳權限及 CSRF 也有回歸測試。保留既有 filer 其他格式的驗證規則。
+- 本次未更動 requests / urllib3；這些既有相依套件的安全問題需另行處理。原 PyJWT、Django、PyMongo 修補及 SQLite 遷移相容處理均保留。測試為本地 Django 請求與檔案儲存流程，未測正式媒體伺服器或部署。

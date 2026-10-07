@@ -239,3 +239,9 @@ FILER_STORAGES = {
     },
 }
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Filer's image dimensions check alone can accept truncated image payloads.
+FILER_ADD_FILE_VALIDATORS = {
+    mime_type: ['mysite.image_validation.validate_raster_upload']
+    for mime_type in ('image/jpeg', 'image/png', 'image/gif', 'image/webp')
+}
